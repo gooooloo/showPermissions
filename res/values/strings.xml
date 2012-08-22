@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">showPermissions</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">@string/app_name</string>
+    <string name="hideGoogles">hideGooglePackages</string>
+    <string name="androidPermissionsOnly">androidPermissionsOnly</string>
+    <string name="showPermissionName">showPermissionName</string>
+    <string name="showPackageName">showPackageName</string>
+    <string name="dangerousPermissionOnly">dangerousPermissionOnly</string>
+
+</resources>
