@@ -142,6 +142,7 @@ public class MainActivity extends SlidingActivity
 			tv.setLayoutParams(lp);
 			tv.setPadding(getGroupViewLeftPadding(), 0, 0, 0);
 			tv.setTextSize(getGroupViewTextSize());
+			tv.setMinHeight(getMinHeight());
 			return tv;
 		}
 
@@ -222,7 +223,13 @@ public class MainActivity extends SlidingActivity
 			tv.setText(makeStringForPackage(pm, getPackageInfo(groupPosition, childPosition)));
 			tv.setTextSize(getChildViewTextSize());
 			tv.setPadding(getChildViewLeftPadding(), 0, 0, 0);
+			tv.setMinHeight(getMinHeight());
 			return tv;
+		}
+
+		public int getMinHeight()
+		{
+			return 80;
 		}
 
 		public PackageInfo getPackageInfo(int groupPosition, int childPosition)
