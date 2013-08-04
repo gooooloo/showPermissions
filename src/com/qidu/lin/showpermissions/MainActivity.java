@@ -15,13 +15,15 @@
  */
 package com.qidu.lin.showpermissions;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -33,8 +35,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -81,6 +81,21 @@ public class MainActivity extends SlidingActivity
 				list.add(key);
 			}
 
+			Comparator<String> comparator = new Comparator<String>()
+			{
+
+				@Override
+				public int compare(String lhs, String rhs)
+				{
+					Collator x = Collator.getInstance();
+					String l = makeStringForPermission(lhs);
+					String r = makeStringForPermission(rhs);
+					return x.compare(l, r);
+				}
+			};
+			;
+			;
+			Collections.sort(list, comparator);
 			keys = list.toArray(new String[0]);
 		}
 
@@ -318,7 +333,8 @@ public class MainActivity extends SlidingActivity
 				return showAppOps();
 			}
 
-			// only work from 4.3. For those before 4.3, this method does nothing.
+			// only work from 4.3. For those before 4.3, this method does
+			// nothing.
 			public boolean showAppOps()
 			{
 				try
