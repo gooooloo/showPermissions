@@ -26,6 +26,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PermissionInfo;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -144,6 +145,7 @@ public class MainActivity extends SlidingActivity
 			tv.setTextSize(getGroupViewTextSize());
 			tv.setMinHeight(getMinHeight());
 			tv.setBackgroundResource(android.R.color.background_light);
+			tv.setGravity(Gravity.CENTER_VERTICAL);
 			return tv;
 		}
 
@@ -225,6 +227,8 @@ public class MainActivity extends SlidingActivity
 			tv.setTextSize(getChildViewTextSize());
 			tv.setPadding(getChildViewLeftPadding(), 0, 0, 0);
 			tv.setMinHeight(getMinHeight());
+
+			tv.setGravity(Gravity.CENTER_VERTICAL);
 			return tv;
 		}
 
