@@ -173,7 +173,7 @@ public class MainActivity extends SlidingActivity
 			{
 				tv = (TextView) convertView;
 			}
-			tv.setText(makeStringForPermission(keys[groupPosition]));
+			tv.setText(makeStringForPermission(keys[groupPosition]) + " - " + getChildrenCount(groupPosition));
 			AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
 			tv.setLayoutParams(lp);
