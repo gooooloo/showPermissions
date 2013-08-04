@@ -44,7 +44,6 @@ public class MainActivity extends Activity
 		public myadapter()
 		{
 			LinkedList<String> list = new LinkedList<String>();
-			int i = 0;
 			for (String key : permissionToPackagesMap.keySet())
 			{
 
@@ -53,13 +52,33 @@ public class MainActivity extends Activity
 					continue;
 				}
 
+				LinkedList<PackageInfo> piList = new LinkedList<PackageInfo>();
+				for (PackageInfo appName : permissionToPackagesMap.get(key))
+				{
+					if (shouldSkipForHideGoogle(appName))
+					{
+						continue;
+					}
+
+					piList.add(appName);
+				}
+
+				if (piList.isEmpty())
+				{
+					continue;
+				}
+
+				PackageInfo s[] = piList.toArray(new PackageInfo[0]);
+				amp.put(key, s);
 				list.add(key);
 			}
-			
-			keys = list.toArray(new String [0]);
+
+			keys = list.toArray(new String[0]);
 		}
 
 		String[] keys = null;
+
+		HashMap<String, PackageInfo[]> amp = new HashMap<String, PackageInfo[]>();
 
 		@Override
 		public void unregisterDataSetObserver(DataSetObserver observer)
@@ -160,7 +179,7 @@ public class MainActivity extends Activity
 		@Override
 		public Object getGroup(int groupPosition)
 		{
-			return permissionToPackagesMap.get(keys[groupPosition]);
+			return amp.get(keys[groupPosition]);
 		}
 
 		@Override
@@ -179,12 +198,12 @@ public class MainActivity extends Activity
 		@Override
 		public int getChildrenCount(int groupPosition)
 		{
-			return getPackageInfoList(groupPosition).size();
+			return getPackageInfoList(groupPosition).length;
 		}
 
-		public List<PackageInfo> getPackageInfoList(int groupPosition)
+		public PackageInfo[] getPackageInfoList(int groupPosition)
 		{
-			return (List<PackageInfo>) getGroup(groupPosition);
+			return (PackageInfo[]) getGroup(groupPosition);
 		}
 
 		@Override
@@ -220,7 +239,7 @@ public class MainActivity extends Activity
 		@Override
 		public Object getChild(int groupPosition, int childPosition)
 		{
-			return getPackageInfoList(groupPosition).get(childPosition);
+			return getPackageInfoList(groupPosition)[childPosition];
 		}
 
 		@Override
