@@ -34,6 +34,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
 
 public class MainActivity extends SlidingActivity
@@ -275,15 +276,19 @@ public class MainActivity extends SlidingActivity
 		this.showPackageName = (CheckBox) this.findViewById(R.id.showPackageName);
 		this.dangerousPermissionOnly = (CheckBox) this.findViewById(R.id.dangerousPermissionOnly);
 
-		refresh();
+		refresh(null);
 	}
 
 	public void initSlidingMenu()
 	{
-		getSlidingMenu().setBehindWidth(300);
+		SlidingMenu slidingMenu = getSlidingMenu();
+		slidingMenu.setBehindWidth(300);
+		slidingMenu.setShadowWidth(2);
+		slidingMenu.setShadowDrawable(android.R.color.darker_gray);
+		
 	}
 
-	public void refresh()
+	public void refresh(View v)
 	{
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
 		ExpandableListAdapter adapter = new myadapter();
