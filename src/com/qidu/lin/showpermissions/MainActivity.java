@@ -89,7 +89,6 @@ public class MainActivity extends SlidingActivity
 					}
 				};
 				Collections.sort(piList, comparator);
-				
 
 				PackageInfo s[] = piList.toArray(new PackageInfo[0]);
 				amp.put(key, s);
@@ -300,14 +299,20 @@ public class MainActivity extends SlidingActivity
 	}
 
 	HashMap<String, List<PackageInfo>> permissionToPackagesMap = new HashMap<String, List<PackageInfo>>();
-	HashMap<String, String> permissionToStringMap = new HashMap<String, String>(); // for sort speed
-	HashMap<PackageInfo, String> packageInfoToStringMap = new HashMap<PackageInfo, String>(); // for sort speed
+	HashMap<String, String> permissionToStringMap = new HashMap<String, String>(); // for
+																					// sort
+																					// speed
+	HashMap<PackageInfo, String> packageInfoToStringMap = new HashMap<PackageInfo, String>(); // for
+																								// sort
+																								// speed
 	private PackageManager pm;
 	private CheckBox hideGoogle;
 	private CheckBox androidPermissionOnly;
 	private CheckBox showPermissionName;
 	private CheckBox showPackageName;
 	private CheckBox dangerousPermissionOnly;
+	private CheckBox sortByName;
+	private CheckBox sortByAppNumber;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -325,6 +330,8 @@ public class MainActivity extends SlidingActivity
 		this.showPermissionName = (CheckBox) this.findViewById(R.id.showPermissionName);
 		this.showPackageName = (CheckBox) this.findViewById(R.id.showPackageName);
 		this.dangerousPermissionOnly = (CheckBox) this.findViewById(R.id.dangerousPermissionOnly);
+		this.sortByName = (CheckBox) this.findViewById(R.id.sortByName);
+		this.sortByAppNumber = (CheckBox) this.findViewById(R.id.sortByAppNumber);
 
 		refresh(null);
 	}
@@ -340,6 +347,15 @@ public class MainActivity extends SlidingActivity
 
 	public void refresh(View v)
 	{
+		if (v == sortByName)
+		{
+			sortByAppNumber.setChecked(false);
+		}
+		else if (v == sortByAppNumber)
+		{
+			sortByName.setChecked(false);
+		}
+
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
 		lv.setOnChildClickListener(new OnChildClickListener()
 		{
@@ -452,7 +468,7 @@ public class MainActivity extends SlidingActivity
 		{
 			return permissionToStringMap.get(permission);
 		}
-		
+
 		String ret = null;
 		try
 		{
@@ -467,7 +483,7 @@ public class MainActivity extends SlidingActivity
 		{
 			ret = permission;
 		}
-		
+
 		permissionToStringMap.put(permission, ret);
 		return ret;
 	}
@@ -478,7 +494,7 @@ public class MainActivity extends SlidingActivity
 		{
 			return packageInfoToStringMap.get(packageInfo);
 		}
-		
+
 		String s = packageInfo.applicationInfo.loadLabel(pm).toString();
 		if (this.showPackageName.isChecked())
 		{
