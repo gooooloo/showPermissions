@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.pm.PackageInfo;
@@ -278,39 +277,6 @@ public class MainActivity extends Activity
 
 	public void refresh(View v)
 	{
-		StringBuffer string = new StringBuffer();
-
-		for (Entry<String, List<PackageInfo>> entry : this.permissionToPackagesMap.entrySet())
-		{
-			if (shouldSkipPermission(entry.getKey()))
-			{
-				continue;
-			}
-
-			StringBuffer sb2 = new StringBuffer();
-
-			for (PackageInfo i : entry.getValue())
-			{
-				if (shouldSkipForHideGoogle(i))
-				{
-					continue;
-				}
-				sb2.append(" -- ");
-				sb2.append(this.makeStringForPackage(pm, i));
-				sb2.append("\n");
-			}
-
-			if (sb2.length() == 0)
-			{
-				continue;
-			}
-			string.append(makeStringForPermission(entry.getKey()));
-			string.append("\n");
-			string.append(sb2);
-			string.append("\n");
-
-		}
-
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
 		ExpandableListAdapter adapter = new myadapter();
 		lv.setAdapter(adapter);
