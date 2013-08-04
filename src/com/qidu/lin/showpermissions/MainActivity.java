@@ -285,7 +285,7 @@ public class MainActivity extends SlidingActivity
 		slidingMenu.setBehindWidth(300);
 		slidingMenu.setShadowWidth(2);
 		slidingMenu.setShadowDrawable(android.R.color.darker_gray);
-		
+
 	}
 
 	public void refresh(View v)
