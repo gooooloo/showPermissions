@@ -83,11 +83,11 @@ public class MainActivity extends SlidingActivity
 
 			Comparator<String> comparator = new Comparator<String>()
 			{
+				Collator x = Collator.getInstance();
 
 				@Override
 				public int compare(String lhs, String rhs)
 				{
-					Collator x = Collator.getInstance();
 					String l = makeStringForPermission(lhs);
 					String r = makeStringForPermission(rhs);
 					return x.compare(l, r);
@@ -285,6 +285,7 @@ public class MainActivity extends SlidingActivity
 	}
 
 	HashMap<String, List<PackageInfo>> permissionToPackagesMap = new HashMap<String, List<PackageInfo>>();
+	HashMap<String, String> permissionToStringMap = new HashMap<String, String>(); // for sort speed
 	private PackageManager pm;
 	private CheckBox hideGoogle;
 	private CheckBox androidPermissionOnly;
@@ -431,6 +432,12 @@ public class MainActivity extends SlidingActivity
 
 	private String makeStringForPermission(String permission)
 	{
+		if (permissionToStringMap.containsKey(permission))
+		{
+			return permissionToStringMap.get(permission);
+		}
+		
+		String ret = null;
 		try
 		{
 			String s = pm.getPermissionInfo(permission, 0).loadLabel(pm).toString();
@@ -438,12 +445,15 @@ public class MainActivity extends SlidingActivity
 			{
 				s += "(" + permission + ")";
 			}
-			return s;
+			ret = s;
 		}
 		catch (NameNotFoundException e)
 		{
-			return permission;
+			ret = permission;
 		}
+		
+		permissionToStringMap.put(permission, ret);
+		return ret;
 	}
 
 	private String makeStringForPackage(PackageManager pm, PackageInfo packageInfo)
