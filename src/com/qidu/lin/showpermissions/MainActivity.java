@@ -266,7 +266,8 @@ public class MainActivity extends SlidingActivity
 		setContentView(R.layout.activity_main);
 		setBehindContentView(R.layout.activity_behind);
 
-		init();
+		initSlidingMenu();
+		initData();
 
 		this.hideGoogle = (CheckBox) this.findViewById(R.id.hideGoogle);
 		this.androidPermissionOnly = (CheckBox) this.findViewById(R.id.androidPermissionsOnly);
@@ -274,17 +275,22 @@ public class MainActivity extends SlidingActivity
 		this.showPackageName = (CheckBox) this.findViewById(R.id.showPackageName);
 		this.dangerousPermissionOnly = (CheckBox) this.findViewById(R.id.dangerousPermissionOnly);
 
-		refresh(null);
+		refresh();
 	}
 
-	public void refresh(View v)
+	public void initSlidingMenu()
+	{
+		getSlidingMenu().setBehindWidth(300);
+	}
+
+	public void refresh()
 	{
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
 		ExpandableListAdapter adapter = new myadapter();
 		lv.setAdapter(adapter);
 	}
 
-	private void init()
+	private void initData()
 	{
 		pm = this.getPackageManager();
 		List<PackageInfo> allPackages = pm.getInstalledPackages(PackageManager.GET_PERMISSIONS);
