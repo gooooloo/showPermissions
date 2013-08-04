@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,9 +33,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -303,6 +309,31 @@ public class MainActivity extends SlidingActivity
 	public void refresh(View v)
 	{
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
+		lv.setOnChildClickListener(new OnChildClickListener()
+		{
+
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
+			{
+				return showAppOps();
+			}
+
+			// only work from 4.3. For those before 4.3, this method does nothing.
+			public boolean showAppOps()
+			{
+				try
+				{
+					Intent intent = new Intent();
+					intent.setClassName("com.android.settings", "com.android.settings.Settings$AppOpsSummaryActivity");
+					startActivity(intent);
+				}
+				catch (ActivityNotFoundException e)
+				{
+
+				}
+				return true;
+			}
+		});
 		ExpandableListAdapter adapter = new myadapter();
 		lv.setAdapter(adapter);
 	}
