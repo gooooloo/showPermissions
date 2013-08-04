@@ -29,10 +29,10 @@ import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
@@ -108,14 +108,18 @@ public class MainActivity extends Activity
 				tv = (TextView) convertView;
 			}
 			tv.setText(makeStringForPermission(keys[groupPosition]));
+			AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+					ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			tv.setLayoutParams(lp);
+			tv.setPadding(50, 0, 0, 0);
+			tv.setTextSize(24);
 			return tv;
 		}
 
 		@Override
 		public long getGroupId(int groupPosition)
 		{
-			// TODO Auto-generated method stub
-			return 0;
+			return groupPosition;
 		}
 
 		@Override
@@ -131,10 +135,9 @@ public class MainActivity extends Activity
 		}
 
 		@Override
-		public long getCombinedGroupId(long groupId)
+		public long getCombinedGroupId(long groupPosition)
 		{
-			// TODO Auto-generated method stub
-			return 0;
+			return groupPosition;
 		}
 
 		@Override
@@ -259,7 +262,7 @@ public class MainActivity extends Activity
 		}
 
 		TextView tv = (TextView) this.findViewById(R.id.tv);
-		tv.setText(string);
+		// tv.setText(string);
 
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
 		ExpandableListAdapter adapter = new myadapter();
