@@ -108,12 +108,32 @@ public class MainActivity extends Activity
 				tv = (TextView) convertView;
 			}
 			tv.setText(makeStringForPermission(keys[groupPosition]));
-			AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-					ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+					ViewGroup.LayoutParams.WRAP_CONTENT);
 			tv.setLayoutParams(lp);
-			tv.setPadding(50, 0, 0, 0);
-			tv.setTextSize(24);
+			tv.setPadding(getGroupViewLeftPadding(), 0, 0, 0);
+			tv.setTextSize(getGroupViewTextSize());
 			return tv;
+		}
+
+		public int getGroupViewTextSize()
+		{
+			return 18;
+		}
+
+		public int getChildViewTextSize()
+		{
+			return 16;
+		}
+
+		public int getGroupViewLeftPadding()
+		{
+			return 70;
+		}
+
+		public int getChildViewLeftPadding()
+		{
+			return 100;
 		}
 
 		@Override
@@ -171,6 +191,8 @@ public class MainActivity extends Activity
 				tv = (TextView) convertView;
 			}
 			tv.setText(makeStringForPackage(pm, getPackageInfo(groupPosition, childPosition)));
+			tv.setTextSize(getChildViewTextSize());
+			tv.setPadding(getChildViewLeftPadding(), 0, 0, 0);
 			return tv;
 		}
 
