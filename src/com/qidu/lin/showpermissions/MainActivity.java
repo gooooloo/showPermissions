@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -35,7 +34,9 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
+
+public class MainActivity extends SlidingActivity
 {
 
 	private final class myadapter implements ExpandableListAdapter
@@ -263,6 +264,7 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		setBehindContentView(R.layout.activity_behind);
 
 		init();
 

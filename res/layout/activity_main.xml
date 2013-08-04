@@ -3,56 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:id="@+id/filter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <CheckBox
-            android:id="@+id/hideGoogle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:onClick="refresh"
-            android:text="@string/hideGoogles" />
-
-        <CheckBox
-            android:id="@+id/androidPermissionsOnly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:onClick="refresh"
-            android:text="@string/androidPermissionsOnly" />
-
-        <CheckBox
-            android:id="@+id/dangerousPermissionOnly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:onClick="refresh"
-            android:text="@string/dangerousPermissionOnly" />
-
-        <CheckBox
-            android:id="@+id/showPermissionName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="refresh"
-            android:text="@string/showPermissionName" />
-
-        <CheckBox
-            android:id="@+id/showPackageName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="refresh"
-            android:text="@string/showPackageName" />
-    </LinearLayout>
-
     <ExpandableListView
         android:id="@+id/expandableListView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/filter" >
+        android:layout_height="wrap_content" >
     </ExpandableListView>
 
 </RelativeLayout>
