@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Qidu Lin
+ * Copyright (C) 2012,2013 Qidu Lin
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,177 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PermissionInfo;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
 {
+
+	private final class myadapter implements ExpandableListAdapter
+	{
+		public myadapter()
+		{
+			this.keys = new String[permissionToPackagesMap.size()];
+			int i = 0;
+			for (String k : permissionToPackagesMap.keySet())
+			{
+				keys[i++] = k;
+			}
+		}
+
+		String[] keys = null;
+
+		@Override
+		public void unregisterDataSetObserver(DataSetObserver observer)
+		{
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void registerDataSetObserver(DataSetObserver observer)
+		{
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onGroupExpanded(int groupPosition)
+		{
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onGroupCollapsed(int groupPosition)
+		{
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public boolean isEmpty()
+		{
+			return false;
+		}
+
+		@Override
+		public boolean isChildSelectable(int groupPosition, int childPosition)
+		{
+			return true;
+		}
+
+		@Override
+		public boolean hasStableIds()
+		{
+			return false;
+		}
+
+		@Override
+		public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
+		{
+
+			TextView tv = null;
+			if (convertView == null)
+			{
+				tv = new TextView(MainActivity.this);
+			}
+			else
+			{
+				tv = (TextView) convertView;
+			}
+			tv.setText(makeStringForPermission(keys[groupPosition]));
+			return tv;
+		}
+
+		@Override
+		public long getGroupId(int groupPosition)
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getGroupCount()
+		{
+			return keys.length;
+		}
+
+		@Override
+		public Object getGroup(int groupPosition)
+		{
+			return permissionToPackagesMap.get(keys[groupPosition]);
+		}
+
+		@Override
+		public long getCombinedGroupId(long groupId)
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public long getCombinedChildId(long groupId, long childId)
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getChildrenCount(int groupPosition)
+		{
+			return getPackageInfoList(groupPosition).size();
+		}
+
+		public List<PackageInfo> getPackageInfoList(int groupPosition)
+		{
+			return (List<PackageInfo>) getGroup(groupPosition);
+		}
+
+		@Override
+		public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
+		{
+			TextView tv = null;
+			if (convertView == null)
+			{
+				tv = new TextView(MainActivity.this);
+			}
+			else
+			{
+				tv = (TextView) convertView;
+			}
+			tv.setText(makeStringForPackage(pm, getPackageInfo(groupPosition, childPosition)));
+			return tv;
+		}
+
+		public PackageInfo getPackageInfo(int groupPosition, int childPosition)
+		{
+			return (PackageInfo) getChild(groupPosition, childPosition);
+		}
+
+		@Override
+		public long getChildId(int groupPosition, int childPosition)
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public Object getChild(int groupPosition, int childPosition)
+		{
+			return getPackageInfoList(groupPosition).get(childPosition);
+		}
+
+		@Override
+		public boolean areAllItemsEnabled()
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+	}
 
 	HashMap<String, List<PackageInfo>> permissionToPackagesMap = new HashMap<String, List<PackageInfo>>();
 	private PackageManager pm;
@@ -96,6 +260,10 @@ public class MainActivity extends Activity
 
 		TextView tv = (TextView) this.findViewById(R.id.tv);
 		tv.setText(string);
+
+		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
+		ExpandableListAdapter adapter = new myadapter();
+		lv.setAdapter(adapter);
 	}
 
 	private void init()
