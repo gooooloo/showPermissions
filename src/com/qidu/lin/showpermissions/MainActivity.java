@@ -143,6 +143,7 @@ public class MainActivity extends SlidingActivity
 			tv.setPadding(getGroupViewLeftPadding(), 0, 0, 0);
 			tv.setTextSize(getGroupViewTextSize());
 			tv.setMinHeight(getMinHeight());
+			tv.setBackgroundResource(android.R.color.background_light);
 			return tv;
 		}
 
