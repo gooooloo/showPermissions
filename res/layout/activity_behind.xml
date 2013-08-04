@@ -43,4 +43,18 @@
         android:onClick="refresh"
         android:text="@string/showPackageName" />
 
+    <CheckBox
+        android:id="@+id/sortByName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="refresh"
+        android:text="@string/sortByName" />
+
+    <CheckBox
+        android:id="@+id/sortByAppNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="refresh"
+        android:text="@string/sortByAppNumber" />
+
 </LinearLayout>

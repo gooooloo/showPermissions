@@ -9,5 +9,7 @@
     <string name="dangerousPermissionOnly">只显示危险级别的权限</string>
     <string name="showPermissionName">显示权限的内部名称</string>
     <string name="showPackageName">显示应用包名(package name)</string>
+    <string name="sortByName">按名字排列权限</string>
+    <string name="sortByAppNumber">按应用数量排列权限</string>
 
 </resources>

@@ -8,6 +8,8 @@
     <string name="androidPermissionsOnly">androidPermissionsOnly</string>
     <string name="showPermissionName">showPermissionName</string>
     <string name="showPackageName">showPackageName</string>
+    <string name="sortByName">sort permissions By name</string>
+    <string name="sortByAppNumber">sort permissions By App Number</string>
     <string name="dangerousPermissionOnly">dangerousPermissionOnly</string>
 
 </resources>
