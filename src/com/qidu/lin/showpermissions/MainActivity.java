@@ -25,6 +25,8 @@ import java.util.List;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -109,8 +111,6 @@ public class MainActivity extends SlidingActivity
 			};
 			Comparator<String> comparatorByAppNumber = new Comparator<String>()
 			{
-				Collator x = Collator.getInstance();
-
 				@Override
 				public int compare(String lhs, String rhs)
 				{
@@ -182,7 +182,7 @@ public class MainActivity extends SlidingActivity
 			{
 				tv = (TextView) convertView;
 			}
-			tv.setText(makeStringForPermission(keys[groupPosition]) + " - " + getChildrenCount(groupPosition));
+			tv.setText(makeStringForPermission(keys[groupPosition]) + " (" + getChildrenCount(groupPosition) + ")");
 			AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
 			tv.setLayoutParams(lp);
@@ -342,6 +342,7 @@ public class MainActivity extends SlidingActivity
 		this.dangerousPermissionOnly = (CheckBox) this.findViewById(R.id.dangerousPermissionOnly);
 		this.sortByName = (CheckBox) this.findViewById(R.id.sortByName);
 		this.sortByAppNumber = (CheckBox) this.findViewById(R.id.sortByAppNumber);
+		new SettingSL().loadSettingsToUI();
 
 		refresh(null);
 	}
@@ -365,6 +366,8 @@ public class MainActivity extends SlidingActivity
 		{
 			sortByName.setChecked(false);
 		}
+
+		new SettingSL().saveSettingsFromUI();
 
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
 		lv.setOnChildClickListener(new OnChildClickListener()
@@ -396,6 +399,56 @@ public class MainActivity extends SlidingActivity
 		ExpandableListAdapter adapter = new myadapter();
 		lv.setAdapter(adapter);
 	}
+
+	private class SettingSL
+	{
+		final static String spname = "settings";
+
+		private void saveSettingsFromUI()
+		{
+			SharedPreferences sp = MainActivity.this.getSharedPreferences(spname, MODE_PRIVATE);
+			Editor edit = sp.edit();
+			for (Elem e : elems)
+			{
+				edit.putBoolean(e.key, e.view.isChecked());
+			}
+			edit.commit();
+		}
+
+		private void loadSettingsToUI()
+		{
+			SharedPreferences sp = MainActivity.this.getSharedPreferences(spname, MODE_PRIVATE);
+			for (Elem e : elems)
+			{
+				e.view.setChecked(sp.getBoolean(e.key, false));
+			}
+		}
+
+		class Elem
+		{
+			public Elem(CheckBox view, String key)
+			{
+				super();
+				this.view = view;
+				this.key = key;
+			}
+
+			final public CheckBox view;
+			final public String key;
+		}
+
+		final Elem[] elems;
+
+		public SettingSL()
+		{
+			elems = new Elem[] { new Elem(hideGoogle, "hideGoogle"), new Elem(androidPermissionOnly, "androidPermissionOnly"),
+					new Elem(showPermissionName, "showPermissionName"), new Elem(showPackageName, "showPackageName"),
+					new Elem(dangerousPermissionOnly, "dangerousPermissionOnly"), new Elem(sortByName, "sortByName"),
+					new Elem(sortByAppNumber, "sortByAppNumber") };
+		}
+	}
+
+	SettingSL settingSL = null;
 
 	private void initData()
 	{
