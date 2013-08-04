@@ -76,6 +76,21 @@ public class MainActivity extends SlidingActivity
 					continue;
 				}
 
+				Comparator<PackageInfo> comparator = new Comparator<PackageInfo>()
+				{
+					Collator x = Collator.getInstance();
+
+					@Override
+					public int compare(PackageInfo lhs, PackageInfo rhs)
+					{
+						String l = makeStringForPackage(pm, lhs);
+						String r = makeStringForPackage(pm, rhs);
+						return x.compare(l, r);
+					}
+				};
+				Collections.sort(piList, comparator);
+				
+
 				PackageInfo s[] = piList.toArray(new PackageInfo[0]);
 				amp.put(key, s);
 				list.add(key);
@@ -286,6 +301,7 @@ public class MainActivity extends SlidingActivity
 
 	HashMap<String, List<PackageInfo>> permissionToPackagesMap = new HashMap<String, List<PackageInfo>>();
 	HashMap<String, String> permissionToStringMap = new HashMap<String, String>(); // for sort speed
+	HashMap<PackageInfo, String> packageInfoToStringMap = new HashMap<PackageInfo, String>(); // for sort speed
 	private PackageManager pm;
 	private CheckBox hideGoogle;
 	private CheckBox androidPermissionOnly;
@@ -458,11 +474,17 @@ public class MainActivity extends SlidingActivity
 
 	private String makeStringForPackage(PackageManager pm, PackageInfo packageInfo)
 	{
+		if (packageInfoToStringMap.containsKey(packageInfo))
+		{
+			return packageInfoToStringMap.get(packageInfo);
+		}
+		
 		String s = packageInfo.applicationInfo.loadLabel(pm).toString();
 		if (this.showPackageName.isChecked())
 		{
 			s += " (" + packageInfo.packageName + ")";
 		}
+		packageInfoToStringMap.put(packageInfo, s);
 		return s;
 	}
 }
