@@ -17,6 +17,7 @@ package com.qidu.lin.showpermissions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -42,12 +43,20 @@ public class MainActivity extends Activity
 	{
 		public myadapter()
 		{
-			this.keys = new String[permissionToPackagesMap.size()];
+			LinkedList<String> list = new LinkedList<String>();
 			int i = 0;
-			for (String k : permissionToPackagesMap.keySet())
+			for (String key : permissionToPackagesMap.keySet())
 			{
-				keys[i++] = k;
+
+				if (shouldSkipPermission(key))
+				{
+					continue;
+				}
+
+				list.add(key);
 			}
+			
+			keys = list.toArray(new String [0]);
 		}
 
 		String[] keys = null;
@@ -254,7 +263,7 @@ public class MainActivity extends Activity
 
 		for (Entry<String, List<PackageInfo>> entry : this.permissionToPackagesMap.entrySet())
 		{
-			if (shouldSkipPermission(entry))
+			if (shouldSkipPermission(entry.getKey()))
 			{
 				continue;
 			}
@@ -282,9 +291,6 @@ public class MainActivity extends Activity
 			string.append("\n");
 
 		}
-
-		TextView tv = (TextView) this.findViewById(R.id.tv);
-		// tv.setText(string);
 
 		ExpandableListView lv = (ExpandableListView) findViewById(R.id.expandableListView1);
 		ExpandableListAdapter adapter = new myadapter();
@@ -319,9 +325,9 @@ public class MainActivity extends Activity
 		}
 	}
 
-	private boolean shouldSkipPermission(Entry<String, List<PackageInfo>> entry)
+	private boolean shouldSkipPermission(String permission)
 	{
-		return this.skipForAndroidPermissionsOnly(entry.getKey()) || this.shouldSkipForDangerousPermissionsOnly(entry.getKey());
+		return this.skipForAndroidPermissionsOnly(permission) || this.shouldSkipForDangerousPermissionsOnly(permission);
 	}
 
 	private boolean shouldSkipForHideGoogle(PackageInfo i)
