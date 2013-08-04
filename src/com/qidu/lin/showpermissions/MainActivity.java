@@ -95,7 +95,7 @@ public class MainActivity extends SlidingActivity
 				list.add(key);
 			}
 
-			Comparator<String> comparator = new Comparator<String>()
+			Comparator<String> comparatorByName = new Comparator<String>()
 			{
 				Collator x = Collator.getInstance();
 
@@ -107,9 +107,19 @@ public class MainActivity extends SlidingActivity
 					return x.compare(l, r);
 				}
 			};
-			;
-			;
-			Collections.sort(list, comparator);
+			Comparator<String> comparatorByAppNumber = new Comparator<String>()
+			{
+				Collator x = Collator.getInstance();
+
+				@Override
+				public int compare(String lhs, String rhs)
+				{
+					return amp.get(rhs).length - amp.get(lhs).length;
+				}
+			};
+			Comparator<String> comparatorByDefault = comparatorByName;
+			Collections.sort(list, sortByName.isChecked() ? comparatorByName : sortByAppNumber.isChecked() ? comparatorByAppNumber
+					: comparatorByDefault);
 			keys = list.toArray(new String[0]);
 		}
 
